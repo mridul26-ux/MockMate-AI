@@ -156,9 +156,10 @@ export default function NewInterviewPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">Job Description (Optional)</label>
+            <label className="block text-sm font-medium text-slate-700 mb-2">Job Description</label>
             <textarea 
               rows={4}
+              required
               value={formData.jobDescription}
               onChange={(e) => setFormData({ ...formData, jobDescription: e.target.value })}
               className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 text-slate-900 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-blue-500 transition-colors placeholder-slate-400 custom-scrollbar"

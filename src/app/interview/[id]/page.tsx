@@ -2,7 +2,7 @@
 
 import { use, useState, useEffect, useRef } from "react";
 import Webcam from "react-webcam";
-import { Mic, MicOff, CheckCircle2, ChevronRight, Loader2, Code as CodeIcon } from "lucide-react";
+import { Mic, MicOff, CheckCircle2, ChevronRight, Loader2, Code as CodeIcon, Volume2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Editor from "react-simple-code-editor";
 import Prism from "prismjs";
@@ -12,6 +12,7 @@ import "prismjs/components/prism-java";
 import "prismjs/components/prism-c";
 import "prismjs/components/prism-cpp";
 import "prismjs/themes/prism-tomorrow.css";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default function ActiveInterviewPage({ params }: { params: Promise<{ id: string }> }) {
   const unwrappedParams = use(params);
@@ -30,6 +31,7 @@ export default function ActiveInterviewPage({ params }: { params: Promise<{ id: 
   const [evaluations, setEvaluations] = useState<any[]>([]);
   const [resumeText, setResumeText] = useState("");
   const [jobDescription, setJobDescription] = useState("");
+  const [isPlayingTTS, setIsPlayingTTS] = useState(false);
   
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const recognitionRef = useRef<any>(null);
@@ -53,6 +55,33 @@ export default function ActiveInterviewPage({ params }: { params: Promise<{ id: 
     };
     fetchInterview();
   }, [unwrappedParams.id]);
+
+  const speakQuestion = (text: string) => {
+    if (!('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    setIsPlayingTTS(true);
+    const utterance = new SpeechSynthesisUtterance(text);
+    // Try to find a good English voice
+    const voices = window.speechSynthesis.getVoices();
+    const englishVoice = voices.find(v => v.lang.startsWith('en-') && v.name.includes('Google'));
+    if (englishVoice) utterance.voice = englishVoice;
+    
+    utterance.onend = () => setIsPlayingTTS(false);
+    utterance.onerror = () => setIsPlayingTTS(false);
+    window.speechSynthesis.speak(utterance);
+  };
+
+  useEffect(() => {
+    if (currentQuestion) {
+      // Delay speech slightly to avoid synchronous setState inside effect
+      setTimeout(() => speakQuestion(currentQuestion.text), 10);
+    }
+    return () => {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, [currentQuestionIndex, currentQuestion]);
 
   useEffect(() => {
     if (typeof window !== "undefined" && ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window)) {
@@ -179,8 +208,9 @@ export default function ActiveInterviewPage({ params }: { params: Promise<{ id: 
           {currentQuestion.requiresCode && <CodeIcon className="w-5 h-5 text-blue-700" />}
           Mock Interview
         </div>
-        <div className="text-sm font-medium px-3 py-1 bg-blue-50 text-blue-800 rounded-full border border-blue-100">
-          Question {currentQuestionIndex + 1} of {questions.length}
+        <div className="text-sm font-medium px-3 py-1 bg-blue-50 text-blue-800 rounded-full border border-blue-100 flex items-center gap-4">
+          <span>Question {currentQuestionIndex + 1} of {questions.length}</span>
+          <ThemeToggle />
         </div>
       </header>
 
@@ -281,9 +311,18 @@ export default function ActiveInterviewPage({ params }: { params: Promise<{ id: 
                 <div className="w-2 h-2 rounded-full bg-blue-700 animate-pulse"></div>
                 QUESTION {currentQuestionIndex + 1}
               </div>
-              <h2 className="text-2xl md:text-3xl font-bold leading-tight mb-8 text-slate-900">
-                {currentQuestion.text}
-              </h2>
+              <div className="flex items-start justify-between gap-4 mb-8">
+                <h2 className="text-2xl md:text-3xl font-bold leading-tight text-slate-900">
+                  {currentQuestion.text}
+                </h2>
+                <button
+                  onClick={() => speakQuestion(currentQuestion.text)}
+                  className={`shrink-0 p-3 rounded-full transition-all ${isPlayingTTS ? 'bg-blue-100 text-blue-700 animate-pulse' : 'bg-slate-100 text-slate-500 hover:bg-blue-50 hover:text-blue-700'}`}
+                  title="Listen to question"
+                >
+                  <Volume2 className="w-5 h-5" />
+                </button>
+              </div>
               <button 
                 onClick={handleEvaluate}
                 disabled={isEvaluating || (!transcript && !code)}

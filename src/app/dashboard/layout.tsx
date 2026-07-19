@@ -1,6 +1,7 @@
 import { UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { Bot, History, Plus, LayoutDashboard, Trophy } from "lucide-react";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default function DashboardLayout({
   children,
@@ -23,6 +24,7 @@ export default function DashboardLayout({
               <Plus className="w-4 h-4" />
               New Interview
             </Link>
+            <ThemeToggle />
             <UserButton appearance={{ elements: { avatarBox: "w-9 h-9" } }} />
           </div>
         </div>

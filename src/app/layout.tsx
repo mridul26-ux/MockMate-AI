@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import "@clerk/ui/themes/shadcn.css";
 import "./globals.css";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -23,12 +24,14 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${inter.variable} h-full antialiased`}
-      style={{ colorScheme: 'light' }}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col bg-[#FCF9F2] text-slate-900 selection:bg-blue-500/30 overflow-x-hidden font-sans">
-        <ClerkProvider>
+      <body className="min-h-full flex flex-col bg-background text-foreground overflow-x-hidden font-sans">
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <ClerkProvider>
           {children}
-        </ClerkProvider>
+          </ClerkProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -15,7 +15,7 @@ export default function Home() {
             <div className="w-8 h-8 rounded-lg bg-blue-700 flex items-center justify-center shadow-sm">
               <Bot className="w-5 h-5 text-white" />
             </div>
-            <span>InterviewAI</span>
+            <span>MockMate AI</span>
           </div>
           <nav className="flex items-center gap-6 text-sm font-medium">
             <Link href="#features" className="text-muted-foreground hover:text-foreground transition-colors hidden sm:block">Features</Link>
@@ -127,7 +127,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-white shadow-[0_-20px_40px_rgba(0,0,0,0.02)] skew-y-[-2deg] origin-top-left -z-10"></div>
           <div className="container mx-auto px-4 max-w-6xl relative z-10">
             <div className="text-center max-w-2xl mx-auto mb-20">
-              <h2 className="text-4xl md:text-5xl font-black tracking-tight text-foreground mb-6">Why Choose InterviewAI?</h2>
+              <h2 className="text-4xl md:text-5xl font-black tracking-tight text-foreground mb-6">Why Choose MockMate AI?</h2>
               <p className="text-lg text-muted-foreground">Everything you need to practice, perfect, and perform at your highest level.</p>
             </div>
             
@@ -178,9 +178,9 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-center gap-2 mb-4 font-bold text-foreground">
             <Bot className="w-5 h-5 text-blue-600" />
-            <span>InterviewAI</span>
+            <span>MockMate AI</span>
           </div>
-          <p>© {new Date().getFullYear()} InterviewAI. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} MockMate AI. All rights reserved.</p>
         </div>
       </footer>
     </div>

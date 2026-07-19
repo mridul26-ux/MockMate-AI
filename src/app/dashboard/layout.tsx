@@ -14,7 +14,7 @@ export default function DashboardLayout({
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 font-semibold text-lg tracking-tight text-slate-900 hover:opacity-80 transition-opacity">
             <Bot className="w-6 h-6 text-blue-700" />
-            <span>InterviewAI</span>
+            <span>MockMate AI</span>
           </Link>
           <div className="flex items-center gap-4">
             <Link 

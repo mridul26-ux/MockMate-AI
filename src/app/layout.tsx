@@ -11,7 +11,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "AI Mock Interview Platform",
+  title: "MockMate AI",
   description: "Master your next interview with AI-powered feedback",
 };
 

@@ -1,4 +1,4 @@
-# AI Mock Interview Platform
+# MockMate AI
 
 An advanced mock interview platform powered by AI. It generates highly tailored technical and behavioral questions based on your job role, experience level, and resume. The platform listens to your verbal responses and evaluates your code in real-time, providing actionable feedback to help you master your next interview.
 
